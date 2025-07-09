@@ -1,15 +1,9 @@
-Claro, aquí tienes la traducción al español:
-
----
-
-# Configuración de Docker para Parcial Final N-Capas
+# Configuración de Docker
 
 ## Requisitos Previos
 
 * Docker Desktop instalado y en ejecución
 * Docker Compose instalado (generalmente viene con Docker Desktop)
-
-## Inicio Rápido
 
 ### 1. Construir y Ejecutar con Docker Compose
 
@@ -44,30 +38,6 @@ docker-compose down -v
 
 ```bash
 docker build -t parcial-final-app .
-```
-
-### Ejecutar Solo PostgreSQL
-
-```bash
-docker run -d \
-  --name postgres \
-  -e POSTGRES_DB=supportdb \
-  -e POSTGRES_USER=postgres \
-  -e POSTGRES_PASSWORD=root \
-  -p 5432:5432 \
-  postgres:15-alpine
-```
-
-### Ejecutar el Contenedor de la Aplicación
-
-```bash
-docker run -d \
-  --name app \
-  -p 8080:8080 \
-  -e SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/supportdb \
-  -e SPRING_DATASOURCE_USERNAME=postgres \
-  -e SPRING_DATASOURCE_PASSWORD=root \
-  parcial-final-app
 ```
 
 ## Variables de Entorno
