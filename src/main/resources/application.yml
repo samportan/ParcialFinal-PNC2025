@@ -14,3 +14,12 @@ jwt:
     expiration: 900000
   refresh-token:
     expiration: 86400000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
