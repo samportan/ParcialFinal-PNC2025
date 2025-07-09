@@ -31,16 +31,6 @@ docker-compose down
 docker build -t parcial-final-app .
 ```
 
-## Variables de Entorno
-
-La aplicación utiliza las siguientes variables de entorno:
-
-* `SPRING_DATASOURCE_URL`: URL de conexión a la base de datos
-* `SPRING_DATASOURCE_USERNAME`: Usuario de la base de datos
-* `SPRING_DATASOURCE_PASSWORD`: Contraseña de la base de datos
-* `SPRING_JPA_HIBERNATE_DDL_AUTO`: Modo DDL de Hibernate (por ejemplo, `update`)
-* `SPRING_JPA_SHOW_SQL`: Mostrar consultas SQL en los logs (`true`)
-
 ## Base de Datos
 
 * **Base de datos**: PostgreSQL 15
