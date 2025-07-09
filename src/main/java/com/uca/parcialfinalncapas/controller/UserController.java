@@ -45,6 +45,12 @@ public class UserController {
         return ResponseBuilderUtil.buildResponse("Usuario creado correctamente", HttpStatus.CREATED, createdUser);
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<GeneralResponse> registerUser(@Valid @RequestBody UserCreateRequest user) {
+        UserResponse registeredUser = userService.register(user);
+        return ResponseBuilderUtil.buildResponse("Usuario registrado correctamente", HttpStatus.CREATED, registeredUser);
+    }
+
     @PutMapping
     public ResponseEntity<GeneralResponse> updateUser(@Valid @RequestBody UserUpdateRequest user) {
         UserResponse updatedUser = userService.update(user);

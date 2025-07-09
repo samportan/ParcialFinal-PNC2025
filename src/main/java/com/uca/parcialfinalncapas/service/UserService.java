@@ -25,6 +25,14 @@ public interface UserService {
     UserResponse save(UserCreateRequest user);
 
     /**
+     * Registra un nuevo usuario con contraseña encriptada.
+     *
+     * @param user el objeto User a registrar
+     * @return el usuario registrado
+     */
+    UserResponse register(UserCreateRequest user);
+
+    /**
      * Actualiza un usuario existente.
      *
      * @param user el objeto User con los datos actualizados

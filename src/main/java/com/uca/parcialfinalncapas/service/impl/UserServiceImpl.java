@@ -9,6 +9,7 @@ import com.uca.parcialfinalncapas.repository.UserRepository;
 import com.uca.parcialfinalncapas.service.UserService;
 import com.uca.parcialfinalncapas.utils.mappers.UserMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserResponse findByCorreo(String correo) {
@@ -26,12 +28,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse save(UserCreateRequest user) {
-
         if (userRepository.findByCorreo(user.getCorreo()).isPresent()) {
             throw new UserNotFoundException("Ya existe un usuario con el correo: " + user.getCorreo());
         }
 
-        return UserMapper.toDTO(userRepository.save(UserMapper.toEntityCreate(user)));
+        User userEntity = UserMapper.toEntityCreate(user);
+        userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
+        return UserMapper.toDTO(userRepository.save(userEntity));
+    }
+
+    @Override
+    public UserResponse register(UserCreateRequest user) {
+        if (userRepository.findByCorreo(user.getCorreo()).isPresent()) {
+            throw new UserNotFoundException("Ya existe un usuario con el correo: " + user.getCorreo());
+        }
+
+        User userEntity = UserMapper.toEntityCreate(user);
+        userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
+        
+        if (user.getNombreRol() == null || user.getNombreRol().isEmpty()) {
+            userEntity.setNombreRol("USER");
+        }
+        
+        return UserMapper.toDTO(userRepository.save(userEntity));
     }
 
     @Override
@@ -40,7 +59,12 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException("No se encontró un usuario con el ID: " + user.getId());
         }
 
-        return UserMapper.toDTO(userRepository.save(UserMapper.toEntityUpdate(user)));
+        User userEntity = UserMapper.toEntityUpdate(user);
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        
+        return UserMapper.toDTO(userRepository.save(userEntity));
     }
 
     @Override

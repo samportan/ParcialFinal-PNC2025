@@ -96,4 +96,24 @@ public class TicketServiceImpl implements TicketService {
     public List<TicketResponseList> getAllTickets() {
         return TicketMapper.toDTOList(ticketRepository.findAll());
     }
+
+    @Override
+    public List<TicketResponseList> getTicketsByUser(String userEmail) {
+        User user = userRepository.findByCorreo(userEmail)
+                .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado con correo: " + userEmail));
+        
+        List<Ticket> userTickets = ticketRepository.findByUsuarioId(user.getId());
+        return TicketMapper.toDTOList(userTickets);
+    }
+
+    @Override
+    public boolean isTicketOwner(Long ticketId, String userEmail) {
+        Ticket ticket = ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new TicketNotFoundException("Ticket no encontrado con ID: " + ticketId));
+        
+        User user = userRepository.findByCorreo(userEmail)
+                .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado con correo: " + userEmail));
+        
+        return ticket.getUsuarioId().equals(user.getId());
+    }
 }

@@ -7,3 +7,10 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+jwt:
+  secret: miClaveSecretaSuperSeguraParaJWT2024QueDebeSerMuyLargaParaQueSeaSegura
+  access-token:
+    expiration: 900000
+  refresh-token:
+    expiration: 86400000
