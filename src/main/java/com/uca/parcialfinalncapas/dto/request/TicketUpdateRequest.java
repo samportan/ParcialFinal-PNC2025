@@ -2,11 +2,15 @@ package com.uca.parcialfinalncapas.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class TicketUpdateRequest {
     @NotNull(message = "El ID del ticket no puede ser nulo")
     private Long id;
