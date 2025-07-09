@@ -10,16 +10,11 @@
 ```bash
 # Construir e iniciar todos los servicios
 docker-compose up --build
-
-# Ejecutar en modo desatendido (en segundo plano)
-docker-compose up -d --build
 ```
 
 ### 2. Acceder a la Aplicación
 
 * **Aplicación Spring Boot**: [http://localhost:8081](http://localhost:8081)
-* **Swagger UI**: [http://localhost:8081/swagger-ui.html](http://localhost:8081/swagger-ui.html)
-* **Revisión de estado (Health Check)**: [http://localhost:8081/actuator/health](http://localhost:8081/actuator/health)
 * **Base de datos PostgreSQL**: localhost:5432
 
 ### 3. Detener los Servicios
@@ -31,8 +26,6 @@ docker-compose down
 # Detener y eliminar contenedores + volúmenes (ADVERTENCIA: Esto eliminará todos los datos)
 docker-compose down -v
 ```
-
-## Comandos Manuales de Docker
 
 ### Construir la Imagen de la Aplicación
 
