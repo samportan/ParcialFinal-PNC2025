@@ -65,3 +65,141 @@ _Si van a crear mas endpoints como el login o registrarse recuerden actualizar p
 - [ ] Probar todos los flujos con Postman/Insomnia/Bruno.
 - [ ] Mostrar que los roles se comportan correctamente.
 - [ ] Incluir usuarios de prueba (`user`, `tech`) y contraseñas.
+
+---
+
+## USO DE API
+
+> **Nota:** El backend corre en `http://localhost:8081` por defecto.
+> Ya existe un usuario TECH para comenzar a usar la API:
+> - **Correo:** admin@example.com
+> - **Contraseña:** admin123
+> 
+> Para instalar y correr la imagen Docker, lee el archivo `DOCKER_README.md`.
+
+### 1. Login (obtener access_token y refresh_token)
+
+```bash
+curl -X POST http://localhost:8081/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "correo": "admin@example.com",
+    "password": "admin123"
+  }'
+```
+
+---
+
+### 2. Registrar un usuario (requiere token de TECH)
+
+```bash
+curl -X POST http://localhost:8081/api/users/register \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer TU_ACCESS_TOKEN" \
+  -d '{
+    "nombre": "Samuel Portan",
+    "correo": "samuel.user@example.com",
+    "password": "hola!123",
+    "nombreRol": "USER"
+  }'
+```
+
+---
+
+### 3. Crear un ticket (solo USER)
+
+```bash
+curl -X POST http://localhost:8081/api/tickets \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer TU_ACCESS_TOKEN_USER" \
+  -d '{
+    "titulo": "No funciona mi PC",
+    "descripcion": "La computadora no enciende",
+    "correoUsuario": "samuel.user@example.com",
+    "correoSoporte": "admin@example.com"
+  }'
+```
+
+---
+
+### 4. Ver todos los tickets (solo TECH)
+
+```bash
+curl -X GET http://localhost:8081/api/tickets \
+  -H "Authorization: Bearer TU_ACCESS_TOKEN"
+```
+
+---
+
+### 5. Ver tus propios tickets (solo USER)
+
+```bash
+curl -X GET http://localhost:8081/api/tickets/my-tickets \
+  -H "Authorization: Bearer TU_ACCESS_TOKEN_USER"
+```
+
+---
+
+### 6. Actualizar un ticket (solo TECH)
+
+```bash
+curl -X PUT http://localhost:8081/api/tickets \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer TU_ACCESS_TOKEN" \
+  -d '{
+    "id": 1,
+    "descripcion": "Ya revisé el equipo, falta cambiar la fuente.",
+    "estado": "IN_PROGRESS",
+    "correoSoporte": "admin@example.com"
+  }'
+```
+
+> Para cerrar un ticket, usa `"estado": "CLOSED"`.
+
+---
+
+### 7. Eliminar un ticket (solo TECH)
+
+```bash
+curl -X DELETE http://localhost:8081/api/tickets/1 \
+  -H "Authorization: Bearer TU_ACCESS_TOKEN"
+```
+
+---
+
+### 8. Refrescar el token
+
+```bash
+curl -X POST http://localhost:8081/api/auth/refresh \
+  -H "Content-Type: application/json" \
+  -d '{
+    "refreshToken": "TU_REFRESH_TOKEN"
+  }'
+```
+
+---
+
+### 9. Ver todos los usuarios (requiere token)
+
+```bash
+curl -X GET http://localhost:8081/api/users/all \
+  -H "Authorization: Bearer TU_ACCESS_TOKEN"
+```
+
+---
+
+### 10. Ver usuario por correo (requiere token)
+
+```bash
+curl -X GET http://localhost:8081/api/users/admin@example.com \
+  -H "Authorization: Bearer TU_ACCESS_TOKEN"
+```
+
+---
+
+> **Importante:**
+> - Todos los endpoints (excepto login y refresh) requieren un token válido en el header `Authorization`.
+> - El campo `estado` de los tickets debe ser exactamente `IN_PROGRESS` o `CLOSED` para cambiar el estado.
+> - El usuario admin ya existe para que puedas comenzar a probar la API.
+> - Para más detalles sobre la instalación y uso con Docker, revisa el archivo `DOCKER_README.md`.
+
