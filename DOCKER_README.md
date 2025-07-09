@@ -1,6 +1,6 @@
 # Configuración de Docker
 
-## Requisitos Previos
+## Requisitos 
 
 * Docker Desktop instalado y en ejecución
 * Docker Compose instalado (generalmente viene con Docker Desktop)
