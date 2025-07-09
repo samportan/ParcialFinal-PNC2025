@@ -23,8 +23,6 @@ docker-compose up --build
 # Detener y eliminar contenedores
 docker-compose down
 
-# Detener y eliminar contenedores + volúmenes (ADVERTENCIA: Esto eliminará todos los datos)
-docker-compose down -v
 ```
 
 ### Construir la Imagen de la Aplicación
